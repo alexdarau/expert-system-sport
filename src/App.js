@@ -3,59 +3,62 @@ import React, { useState } from 'react';
 export default function App() {
 	const questions = [
 		{
-			questionText: 'Care este sexul tău?',
+			questionText: 'What is your gender?',
 			answerOptions: [
-				{ answerText: 'Barbat', isCorrect: false },
-				{ answerText: 'Femeie', isCorrect: false },
+				{ answerText: 'Male', answerValue: 'm' },
+				{ answerText: 'Female', answerValue: 'f' },
 			],
 		},
 		{
-			questionText: 'Obiectiv?',
+			questionText: 'What is your goal?',
 			answerOptions: [
-				{ answerText: 'slabit', isCorrect: false },
-				{ answerText: 'masa musculara', isCorrect: true },
-				{ answerText: 'mentinere in forma', isCorrect: false },
+				{ answerText: 'Weight loss', answerValue: 'weight loss' },
+				{ answerText: 'Muscle growth', answerValue: 'muscle growth' },
+				{ answerText: 'Stay fit', answerValue: 'stay fit' },
 			],
 		},
 		{
-			questionText: 'Cate zile pe saptamana?',
+			questionText: 'How manny days per week?',
 			answerOptions: [
-				{ answerText: '3', isCorrect: true },
-				{ answerText: '4-5', isCorrect: false },
-				{ answerText: '6-7', isCorrect: false },
+				{ answerText: '3', answerValue: '3' },
+				{ answerText: '4-5', answerValue: '5' },
+				{ answerText: '6-7', answerValue: '7' },
 			],
 		},
 		{
-			questionText: 'Skill level',
+			questionText: 'What is your experience?',
 			answerOptions: [
-				{ answerText: 'slab', isCorrect: false },
-				{ answerText: 'bun', isCorrect: false },
-				{ answerText: 'super', isCorrect: false },
+				{ answerText: 'Begginer', answerValue: 'begginer' },
+				{ answerText: 'Intermediate' , answerValue: 'intermediate' },
+				{ answerText: 'Advanced' , answerValue: 'advanced' },
 			],
 		},
 	];
 
 	const [currentQuestion, setCurrentQuestion] = useState(0);
 	const [showExercises, setshowExercises] = useState(false);
-	const [score, setScore] = useState(0);
+	const [premises, setPremises] =  useState([]);
 
-	const handleAnswerOptionClick = (isCorrect) => {
-		if (isCorrect) {
-			setScore(score + 1);
-		}
-
+	const handleAnswerOptionClick = (value) => {
+		setPremises([...premises, value]);
 		const nextQuestion = currentQuestion + 1;
 		if (nextQuestion < questions.length) {
 			setCurrentQuestion(nextQuestion);
 		} else {
+			getConclusion(premises)
 			setshowExercises(true);
 		}
+		console.log("🚀 ~ file: App.js ~ line 44 ~ handleAnswerOptionClick ~ premises", premises)
 	};
+
+	const getConclusion = (premises) => {
+	}
+
 	return (
 		<div className='app'>
 			{showExercises ? (
 				<div className='score-section'>
-					Sport si bani!
+					{premises}
 				</div>
 			) : (
 				<>
@@ -67,7 +70,7 @@ export default function App() {
 					</div>
 					<div className='answer-section'>
 						{questions[currentQuestion].answerOptions.map((answerOption) => (
-							<button onClick={() => handleAnswerOptionClick(answerOption.isCorrect)}>{answerOption.answerText}</button>
+							<button onClick={() => handleAnswerOptionClick(answerOption.answerValue)}>{answerOption.answerText}</button>
 						))}
 					</div>
 				</>
